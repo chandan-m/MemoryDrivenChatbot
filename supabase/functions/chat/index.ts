@@ -2,10 +2,10 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js";
 import { Hono } from 'jsr:@hono/hono';
 import OpenAI from 'https://deno.land/x/openai@v4.24.0/mod.ts'
-const supabase = createClient(Deno.env.get("SUPABASE_URL"), Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"));
 import {User, Message, UserInfo} from "./types.ts";
 import {GPT_MODEL, GPT_MODEL_BEHAVIOUR, MAX_CHAT_HISTORY_CONTEXT} from "./constants.ts";
 
+const supabase = createClient(Deno.env.get("SUPABASE_URL"), Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"));
 const openai = new OpenAI({ apiKey: Deno.env.get("OPENAI_API_KEY")! });
 
 const app = new Hono();
