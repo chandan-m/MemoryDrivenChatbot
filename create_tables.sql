@@ -1,4 +1,4 @@
-create table users (
+create table if not exists users (
   id uuid primary key default gen_random_uuid(),
   name text,
   age int,
@@ -7,7 +7,7 @@ create table users (
   updated_at timestamp default now()
 );
 
-create table messages (
+create table if not exists messages (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references users(id),
   role text,
