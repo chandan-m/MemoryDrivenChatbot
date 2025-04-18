@@ -13,18 +13,15 @@ const app = new Hono();
 app.post('/chat/sendMessage', async (c) => {
     let { user_id, message } = await c.req.json();
     const user: User = await getOrCreateUser(user_id);
-    console.log(user);
     user_id = user.id;
 
     const chatHistory = await fetchMessages(user_id, MAX_CHAT_HISTORY_CONTEXT);
 
     const extractUserInfo: boolean = !hasAllUserInfo(user)
-    console.log("extractUserInfo", extractUserInfo)
 
     const {reply, userInfo} = await chatCompletionHelper(message, chatHistory, extractUserInfo)
 
     if (extractUserInfo && userInfo != null && Object.keys(userInfo).length > 0) {
-        console.log("Updating User", user_id, userInfo)
         await updateUser(user_id, userInfo)
     }
 
@@ -34,11 +31,10 @@ app.post('/chat/sendMessage', async (c) => {
         {user_id: user_id, role: "assistant", content: reply, timestamp: new Date(now.getTime() + 1).toISOString()},
     ])
 
-    // console.log(savedMessages)
-
     return c.json({
         user_id,
-        reply: reply
+        reply: reply,
+        savedMessages: savedMessages
     })
 });
 
@@ -72,9 +68,6 @@ async function chatCompletionHelper(message: string, chatHistory: Message[], ext
     messages.push({ role: "user", content: message });
     messages.unshift({role: "system", content: GPT_MODEL_BEHAVIOUR})
 
-    console.log(messages)
-
-    console.log("GPT Call 1")
     const completion = await openai.chat.completions.create({
         model: GPT_MODEL,
         stream: false,
@@ -97,10 +90,7 @@ async function chatCompletionHelper(message: string, chatHistory: Message[], ext
             console.error("Error while parsing User Info from extract_user_info response", e)
         }
 
-        console.log(userInfo)
-
         if (!assistantReply) {
-            console.log("GPT Call 2")
             const secondCall = await openai.chat.completions.create({
                 model: GPT_MODEL,
                 stream: false,
