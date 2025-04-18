@@ -150,12 +150,20 @@ async function fetchMessages(user_id: string, limit: number = 20, before: string
     return data
 }
 
-app.post('/chat/getMessages', (c) => {
-    return new Response('Hello World!')
+app.post('/chat/getMessages', async (c) => {
+    let { user_id, limit, before } = await c.req.json();
+    const messages = await fetchMessages(user_id, limit, before);
+    return c.json({
+        messages: messages
+    })
 });
 
-app.post('/chat/userInfo', (c) => {
-    return new Response('Hello World!')
+app.post('/chat/userInfo', async (c) => {
+    let { user_id } = await c.req.json();
+    const user = await getOrCreateUser(user_id);
+    return c.json({
+        user: user
+    })
 });
 
 
