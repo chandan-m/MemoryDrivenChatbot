@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Chat from "./components/Chat.tsx";
 import InfoButton from "./components/InfoButton.tsx";
 import ResetButton from "./components/ResetButton.tsx";
@@ -26,8 +26,8 @@ function App() {
         <div className="h-screen bg-gray-50 flex items-center justify-center">
             <div className="w-full max-w-lg h-full flex flex-col shadow-lg rounded-lg bg-white">
                 <InfoButton userId={userId}/>
-                <ResetButton  setUserId={handleUserId}/>
-                <Chat userId={userId} setUserId={handleUserId} />
+                <ResetButton setUserId={handleUserId}/>
+                <Chat userId={userId} setUserId={handleUserId}/>
             </div>
         </div>
     );

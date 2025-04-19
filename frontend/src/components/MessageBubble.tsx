@@ -9,7 +9,7 @@ type Props = {
     isUser: boolean;
 };
 
-const MessageBubble: React.FC<Props> = ({ message, isUser }) => (
+const MessageBubble: React.FC<Props> = ({message, isUser}) => (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
         <div
             className={`max-w-xs px-4 py-2 rounded-2xl shadow-sm ${
@@ -21,7 +21,7 @@ const MessageBubble: React.FC<Props> = ({ message, isUser }) => (
             <span className="block">{message.content}</span>
             {message.timestamp && (
                 <span className="block text-xs text-right text-gray-500 mt-1">
-          {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          {new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}
         </span>
             )}
         </div>

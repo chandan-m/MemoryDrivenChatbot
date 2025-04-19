@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 
-const ResetButton: React.FC<Props> = ({ setUserId }) => {
+const ResetButton: React.FC<Props> = ({setUserId}) => {
     const [showTooltip, setShowTooltip] = useState(false)
 
     const handleReset = () => {
@@ -20,7 +20,8 @@ const ResetButton: React.FC<Props> = ({ setUserId }) => {
                 <span className="font-bold text-red-600 text-lg">X</span>
             </button>
             {showTooltip && (
-                <div className="absolute right-10 top-1/2 -translate-y-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded shadow min-w-[96px]">
+                <div
+                    className="absolute right-10 top-1/2 -translate-y-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded shadow min-w-[96px]">
                     Reset User Id
                 </div>
             )}

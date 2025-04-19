@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { getUserInfo } from "../api.ts";
+import React, {useState} from 'react'
+import {getUserInfo} from "../api.ts";
 
-const InfoButton: React.FC<Props> = ({ userId }) => {
+const InfoButton: React.FC<Props> = ({userId}) => {
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<{ name?: string; age?: number; gender?: string } | null>(null)
