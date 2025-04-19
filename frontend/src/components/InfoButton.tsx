@@ -16,8 +16,12 @@ const InfoButton: React.FC<Props> = ({userId}) => {
             setLoading(true)
             try {
                 if (userId) {
-                    const data = await getUserInfo(userId)
-                    setUser(data.user)
+                    try {
+                        const data = await getUserInfo(userId)
+                        setUser(data.user)
+                    } catch (err) {
+                        alert(err.message);
+                    }
                 }
             } catch (e) {
                 setUser(null)

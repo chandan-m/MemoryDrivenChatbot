@@ -35,6 +35,8 @@ const Chat: React.FC<Props> = ({userId, setUserId}) => {
             shouldScrollToBottom.current = true;
             setMessages(data.messages.reverse());
             setHasMore(data.messages.length === PAGE_SIZE);
+        }).catch((err) => {
+            alert(err.message);
         });
     }, [userId]);
 
@@ -54,18 +56,21 @@ const Chat: React.FC<Props> = ({userId, setUserId}) => {
             setFetchingMore(true);
 
             const before = messages[0].timestamp;
-            const data = await getMessages(userId, PAGE_SIZE, before);
-
-            setMessages((prev) => {
-                setTimeout(() => { // To ensure scroll continuity
-                    if (chatListRef.current) {
-                        const newScrollHeight = chatListRef.current.scrollHeight;
-                        chatListRef.current.scrollTop = newScrollHeight - prevScrollHeight + prevScrollTop;
-                    }
-                }, 0);
-                return [...data.messages.reverse(), ...prev];
-            });
-            setHasMore(data.messages.length === PAGE_SIZE);
+            try {
+                const data = await getMessages(userId, PAGE_SIZE, before);
+                setMessages((prev) => {
+                    setTimeout(() => { // To ensure scroll continuity
+                        if (chatListRef.current) {
+                            const newScrollHeight = chatListRef.current.scrollHeight;
+                            chatListRef.current.scrollTop = newScrollHeight - prevScrollHeight + prevScrollTop;
+                        }
+                    }, 0);
+                    return [...data.messages.reverse(), ...prev];
+                });
+                setHasMore(data.messages.length === PAGE_SIZE);
+            } catch (err) {
+                alert(err.message);
+            }
             setFetchingMore(false);
         }
     };
@@ -84,19 +89,24 @@ const Chat: React.FC<Props> = ({userId, setUserId}) => {
         setMessages((prev) => [...prev, myMsg]);
         setInput("");
 
-        const data = await sendMessage(userId, input);
-        if (!userId) setUserId(data.user_id);
-        shouldScrollToBottom.current = true;
-        setMessages((prev) => [
-            ...prev.slice(0, -1),
-            myMsg,
-            {
-                user_id: data.user_id,
-                role: "assistant",
-                content: data.reply,
-                timestamp: new Date().toISOString(),
-            },
-        ]);
+        try {
+            console.log('in try')
+            const data = await sendMessage(userId, input);
+            if (!userId) setUserId(data.user_id);
+            shouldScrollToBottom.current = true;
+            setMessages((prev) => [
+                ...prev.slice(0, -1),
+                myMsg,
+                {
+                    user_id: data.user_id,
+                    role: "assistant",
+                    content: data.reply,
+                    timestamp: new Date().toISOString(),
+                },
+            ]);
+        } catch (err) {
+            alert(err.message);
+        }
         setLoading(false);
     };
 
@@ -135,7 +145,7 @@ const Chat: React.FC<Props> = ({userId, setUserId}) => {
                     className="bg-orange-400 text-white rounded-full px-4 py-2 font-bold hover:bg-orange-500 transition"
                     disabled={loading}
                 >
-                    Send
+                    Sending
                 </button>
             </form>
         </div>
