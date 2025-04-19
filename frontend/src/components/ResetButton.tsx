@@ -1,5 +1,9 @@
 import React, {useState} from 'react'
 
+type Props = {
+    setUserId: (id: string | null) => void;
+};
+
 const ResetButton: React.FC<Props> = ({setUserId}) => {
     const [showTooltip, setShowTooltip] = useState(false)
 

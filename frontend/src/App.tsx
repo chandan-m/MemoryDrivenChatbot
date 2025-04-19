@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Chat from "./components/Chat.tsx";
 import InfoButton from "./components/InfoButton.tsx";
 import ResetButton from "./components/ResetButton.tsx";
@@ -13,7 +13,7 @@ function App() {
         console.log(import.meta.env.VITE_SUPABASE_ANON_KEY);
     }, []);
 
-    const handleUserId = (id: string) => {
+    const handleUserId = (id: string | null) => {
         if (id == null) {
             localStorage.removeItem("userId");
         } else {

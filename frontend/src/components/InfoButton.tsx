@@ -1,6 +1,10 @@
 import React, {useState} from 'react'
 import {getUserInfo} from "../api.ts";
 
+type Props = {
+    userId: string | null;
+};
+
 const InfoButton: React.FC<Props> = ({userId}) => {
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -11,8 +15,10 @@ const InfoButton: React.FC<Props> = ({userId}) => {
         if (!show && !loading) {
             setLoading(true)
             try {
-                const data = await getUserInfo(userId)
-                setUser(data.user)
+                if (userId) {
+                    const data = await getUserInfo(userId)
+                    setUser(data.user)
+                }
             } catch (e) {
                 setUser(null)
             }
