@@ -9,6 +9,16 @@ Web-based AI assistant that chats naturally with users while subtly learning and
 - Typing animation and paginated chat history
 - Modern React UI with Tailwind CSS
 - Supabase Edge Functions for backend logic
+- GPT token/cost saving measures: 
+  - Limit message count to 10.
+  - Skips user extraction prompt (function tool), if all user info is present.
+- Additional Debug Tools in UI:
+  - Info Button in top-right - Fetches and displays the user info that has been extracted so far.
+  - X Button - Resets user id in local-storage - Start new chat session
+
+### Screenshot 
+<img src="screenshots/screenshot1.png" width="600" >
+
 
 ## Setup Instructions
 
