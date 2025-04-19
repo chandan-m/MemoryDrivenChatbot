@@ -16,7 +16,7 @@ export class DataAccess {
             }
         }
         const newUser: User = {
-            id: user_id
+            ...(user_id && {id: user_id})
         }
         const { data } = await this.supabase.from("users").insert(newUser).select().single();
         return data
